@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemapedia/config/router/app_router.dart';
 import 'package:cinemapedia/config/theme/app_theme.dart';
 import 'package:cinemapedia/presentation/screens/screens.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
   
-  runApp(const MainApp());
+  runApp(
+    ProviderScope(
+      child: const MainApp()
+    )
+  );
 }
 
 class MainApp extends StatelessWidget {
