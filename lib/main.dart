@@ -9,8 +9,8 @@ Future main() async {
   await dotenv.load(fileName: '.env');
   
   runApp(
-    ProviderScope(
-      child: const MainApp()
+    const ProviderScope(
+      child: MainApp()
     )
   );
 }

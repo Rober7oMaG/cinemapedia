@@ -5,7 +5,7 @@ class MovieMapper {
   static Movie theMovieDbToEntity(MovieTheMovieDB theMovieDB) => Movie(
     adult: theMovieDB.adult,
     backdropPath: (theMovieDB.backdropPath != '')
-      ? 'httpd://image.tmdb.org/t/p/w500${theMovieDB.backdropPath}'
+      ? 'https://image.tmdb.org/t/p/w500${theMovieDB.backdropPath}'
       : 'https://ih1.redbubble.net/image.1893341687.8294/poster,504x498,f8f8f8-pad,600x600,f8f8f8.jpg',
     genreIds: theMovieDB.genreIds.map((e) => e.toString()).toList(),
     id: theMovieDB.id,
@@ -14,7 +14,7 @@ class MovieMapper {
     overview: theMovieDB.overview,
     popularity: theMovieDB.popularity,
     posterPath: (theMovieDB.posterPath != '')
-      ? 'httpd://image.tmdb.org/t/p/w500${theMovieDB.posterPath}'
+      ? 'https://image.tmdb.org/t/p/w500${theMovieDB.posterPath}'
       : 'no-poster',
     releaseDate: theMovieDB.releaseDate,
     title: theMovieDB.title,
