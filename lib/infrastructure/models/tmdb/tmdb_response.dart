@@ -1,4 +1,4 @@
-import 'package:cinemapedia/infrastructure/entities/movie_tmdb.dart';
+import 'package:cinemapedia/infrastructure/models/tmdb/movie_tmdb.dart';
 
 class TheMovieDbResponse {
   TheMovieDbResponse({
