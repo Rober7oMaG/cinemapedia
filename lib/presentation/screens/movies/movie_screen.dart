@@ -75,11 +75,6 @@ class _CustomSliverAppBar extends StatelessWidget {
       shadowColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        // title: Text(
-        //   movie.title, 
-        //   style: const TextStyle(fontSize: 20),
-        //   textAlign: TextAlign.start,
-        // ),
         background: Stack(
           children: [
             SizedBox.expand(
@@ -146,6 +141,7 @@ class _MovieDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const _SectionTitle(title: 'Overview'),
         Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
@@ -170,7 +166,10 @@ class _MovieDetails extends StatelessWidget {
                   children: [
                     Text(
                       movie.title,
-                      style: textStyles.titleLarge,
+                      style: textStyles.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                      ),
                     ),
 
                     Text(movie.overview)
@@ -181,6 +180,7 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
 
+        const _SectionTitle(title: 'Genres'),
         Padding(
           padding: const EdgeInsets.all(8),
           child: Wrap(
@@ -198,10 +198,35 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
 
+        const _SectionTitle(title: 'Cast'),
         _ActorsByMovie(movieId: movie.id.toString()),
 
         const SizedBox(height: 50)
       ],
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+
+  const _SectionTitle({
+    required this.title
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 8,
+        top: 10
+      ),
+      child: Text(
+        title,
+        style: textStyles.titleLarge
+      )
     );
   }
 }
