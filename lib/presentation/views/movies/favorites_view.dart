@@ -64,7 +64,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
               'You don\'t have any favorite movies yet.',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.black54
+                color: Colors.white70
               ),
             ),
 

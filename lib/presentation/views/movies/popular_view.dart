@@ -7,11 +7,11 @@ class CategoriesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categories'),
+        title: const Text('Popular'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text('Categories View'),
+      body: const Center(
+        child: Text('Popular View'),
       ),
     );
   }
