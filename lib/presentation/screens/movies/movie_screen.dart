@@ -1,5 +1,6 @@
 import 'package:cinemapedia/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:cinemapedia/presentation/widgets/movies/similar_movies.dart';
+import 'package:cinemapedia/presentation/widgets/videos/videos_from_movie.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -166,6 +167,8 @@ class _MovieDetails extends StatelessWidget {
         _Genres(movie: movie),
 
         _ActorsByMovie(movieId: movie.id.toString()),
+
+        VideosFromMovie(movieId: movie.id),
 
         SimilarMovies(movieId: movie.id),
 

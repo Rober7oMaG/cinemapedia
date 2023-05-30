@@ -1,4 +1,5 @@
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
+
 
 abstract class LocalStorageRepository {
   Future<void> toggleFavorite(Movie movie);
