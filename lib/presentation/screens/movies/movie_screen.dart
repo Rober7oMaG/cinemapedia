@@ -1,13 +1,11 @@
-import 'package:cinemapedia/presentation/providers/storage/favorite_movies_provider.dart';
-import 'package:cinemapedia/presentation/widgets/movies/similar_movies.dart';
-import 'package:cinemapedia/presentation/widgets/videos/videos_from_movie.dart';
-import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
+
 
 class MovieScreen extends ConsumerStatefulWidget {
   static const name = 'movie_screen';
@@ -164,11 +162,13 @@ class _MovieDetails extends StatelessWidget {
       children: [
         _Overview(movie: movie, size: size, textStyles: textStyles),
 
-        _Genres(movie: movie),
+        _Genres(movie: movie, textStyles: textStyles),
 
-        _ActorsByMovie(movieId: movie.id.toString()),
+        _ActorsByMovie(movieId: movie.id.toString(), textStyles: textStyles),
 
         VideosFromMovie(movieId: movie.id),
+
+        const SizedBox(height: 10),
 
         SimilarMovies(movieId: movie.id),
 
@@ -177,8 +177,6 @@ class _MovieDetails extends StatelessWidget {
     );
   }
 }
-
-
 
 class _CustomGradient extends StatelessWidget {
   final AlignmentGeometry begin;
@@ -210,33 +208,8 @@ class _CustomGradient extends StatelessWidget {
   }
 }
 
-class _SectionTitle extends StatelessWidget {
-  final String title;
-
-  const _SectionTitle({
-    required this.title
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyles = Theme.of(context).textTheme;
-
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 8,
-        top: 10
-      ),
-      child: Text(
-        title,
-        style: textStyles.titleLarge!.copyWith(color: Colors.yellow.shade700)
-      )
-    );
-  }
-}
-
 class _Overview extends StatelessWidget {
   const _Overview({
-    super.key,
     required this.movie,
     required this.size,
     required this.textStyles,
@@ -250,38 +223,44 @@ class _Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              movie.posterPath,
-              width: size.width * 0.3,
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          // Description
-          SizedBox(
-            width: (size.width - 40) * 0.7,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  movie.title,
-                  style: textStyles.titleLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20
-                  ),
+          Text('Overview', style: textStyles.titleLarge),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.posterPath,
+                  width: size.width * 0.3,
                 ),
+              ),
 
-                Text(movie.overview)
-              ],
-            ),
-          )
+              const SizedBox(width: 10),
+
+              // Description
+              SizedBox(
+                width: (size.width - 40) * 0.7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      movie.title,
+                      style: textStyles.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                      ),
+                    ),
+
+                    Text(movie.overview)
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -290,27 +269,34 @@ class _Overview extends StatelessWidget {
 
 class _Genres extends StatelessWidget {
   const _Genres({
-    super.key,
     required this.movie,
+    required this.textStyles,
   });
 
   final Movie movie;
+  final TextTheme textStyles;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Wrap(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...movie.genreIds.map((gender) => Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: Chip(
-              label: Text(gender),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
-              ),
-            ),
-          ))
+          Text('Genres', style: textStyles.titleLarge),
+          Wrap(
+            children: [
+              ...movie.genreIds.map((gender) => Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text(gender),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+              ))
+            ],
+          ),
         ],
       ),
     );
@@ -319,9 +305,11 @@ class _Genres extends StatelessWidget {
 
 class _ActorsByMovie extends ConsumerWidget {
   final String movieId;
+  final TextTheme textStyles;
 
   const _ActorsByMovie({
-    required this.movieId
+    required this.movieId,
+    required this.textStyles,
   });
 
   @override
@@ -336,53 +324,62 @@ class _ActorsByMovie extends ConsumerWidget {
 
     final actors = actorsByMovie[movieId]!;
 
-    return SizedBox(
-      height: 300,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: actors.length,
-        itemBuilder: (context, index) {
-          final actor = actors[index];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+          child: Text('Cast', style: textStyles.titleLarge),
+        ),
+        SizedBox(
+          height: 300,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: actors.length,
+            itemBuilder: (context, index) {
+              final actor = actors[index];
 
-          return Container(
-            padding: const EdgeInsets.all(8),
-            width: 135,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Image
-                FadeInRight(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      actor.profilePath,
-                      height: 180,
-                      width: 135,
-                      fit: BoxFit.cover,
+              return Container(
+                padding: const EdgeInsets.all(8),
+                width: 135,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Image
+                    FadeInRight(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          actor.profilePath,
+                          height: 180,
+                          width: 135,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
 
-                const SizedBox(height: 5),
+                    const SizedBox(height: 5),
 
-                // Name
-                Text(
-                  actor.name,
-                  maxLines: 2,
+                    // Name
+                    Text(
+                      actor.name,
+                      maxLines: 2,
+                    ),
+                    Text(
+                      actor.character ?? '',
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis
+                      ),
+                    )
+                  ],
                 ),
-                Text(
-                  actor.character ?? '',
-                  maxLines: 2,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

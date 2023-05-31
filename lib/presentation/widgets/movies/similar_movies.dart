@@ -1,8 +1,10 @@
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/presentation/providers/providers.dart';
-import 'package:cinemapedia/presentation/widgets/movies/movies_horizontal_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:cinemapedia/domain/entities/entities.dart';
+import 'package:cinemapedia/presentation/providers/providers.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
+
 
 class SimilarMovies extends ConsumerWidget {
   final int movieId;

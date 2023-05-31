@@ -7,13 +7,10 @@ class FullScreenLoader extends StatelessWidget {
     final messages = <String>[
       'Loading movies',
       'Getting pop corn',
-      'Loading popular',
-      'Calling my girlfriend',
-      'Almost there',
-      'This is taking too long :('
+      'Almost there'
     ];
 
-    return Stream.periodic(const Duration(milliseconds: 1200), (step) {
+    return Stream.periodic(const Duration(milliseconds: 1500), (step) {
       return messages[step];
     }).take(messages.length);
   }
@@ -24,10 +21,10 @@ class FullScreenLoader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Please wait'),
-          SizedBox(height: 10),
-          CircularProgressIndicator(strokeWidth: 2),
-          SizedBox(height: 10),
+          const Text('Please wait'),
+          const SizedBox(height: 10),
+          const CircularProgressIndicator(strokeWidth: 2),
+          const SizedBox(height: 10),
 
           StreamBuilder(
             stream: getLoadingMessages(),
